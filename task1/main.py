@@ -1,4 +1,4 @@
-def total_salary(path):
+def total_salary(path:str) -> tuple:
     total_salary = 0
     total_developers = 0
     average_salary = 0
@@ -18,7 +18,7 @@ def total_salary(path):
                 average_salary = total_salary / total_developers
         return total_salary,average_salary           
     except FileNotFoundError:
-        print(f"Error .File wuth path: '{path}' not found")
+        print(f"Error .File with path: '{path}' not found")
         return (0, 0)
     except Exception as e:
         print(f"Oops ,unexpected error just happened {e}")
