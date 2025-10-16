@@ -4,28 +4,49 @@ from colorama import Fore, Style, init
 
 init(autoreset=True)
 
+VERT_LINE = "│   " 
+FORK = "├── "     
+LAST_FORK = "└── " 
+SPACE = "    "
 
-def visualize_structure(path, level = 0):
+
+def visualize_structure(path, prefix=""):
     dir_path = Path(path)
-    if level == 0:
+    if prefix == "":
             if not dir_path.exists():
                 print(Fore.RED + f"Error: Path '{dir_path}' does not exist!")
                 return
             if not dir_path.is_dir():
                 print(Fore.RED + f"Error: Path '{dir_path}' is not a directory!")
                 return
+            
 
-    indent = " " * level
-    print(indent + Fore.CYAN + f"📂 {dir_path.name}" + Style.RESET_ALL) 
+    if prefix == "":
+        
+        print(Fore.CYAN + f"📦 {dir_path.name}" + Style.RESET_ALL) # Line A'    
+
+
+
 
     try:
-        for item in dir_path.iterdir():
+
+        contents = sorted(list(dir_path.iterdir()))
+        count = len(contents)
+        
+        for i, item in enumerate(contents):
+            is_last = (i == count - 1)
+
+            connector = LAST_FORK if is_last else FORK
 
             if item.is_dir():
-                #print (" " * (level + 2 ) + Fore.LIGHTBLUE_EX  + f"📁 {item.name}/")
-                visualize_structure(item,level + 4)
+
+                print(prefix + connector + Fore.BLUE + f"📁 {item.name}" + Style.RESET_ALL)
+
+                new_prefix = prefix + (SPACE if is_last else VERT_LINE)
+                visualize_structure(item,new_prefix)
+
             if item.is_file():
-                print (" " * (level + 2 ) + Fore.GREEN + f"📄 {item.name}")
+                print(prefix + connector + Fore.GREEN + f"📄 {item.name}" + Style.RESET_ALL)
                 
     except PermissionError:
         print(Fore.YELLOW + f"⚠️ Permission Denied to access '{dir_path.name}' contents." + Style.RESET_ALL)
