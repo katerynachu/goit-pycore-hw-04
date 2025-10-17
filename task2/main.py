@@ -19,11 +19,6 @@ def get_cats_info(path:str)-> list :
     return cats_list
 
 
-
-
-
-
-
 def main():
     cats_info = get_cats_info("task2/cats_info.txt")
     print(cats_info)

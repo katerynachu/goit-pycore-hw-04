@@ -34,8 +34,8 @@ def show_phone(args,contacts):
     
     name = args[0]
     if name in contacts:
-       phone_number = contacts[name]
-       return phone_number
+        phone_number = contacts[name]
+        return phone_number
     else:
         return "Contact not found"
 
